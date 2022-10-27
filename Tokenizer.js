@@ -9,6 +9,7 @@ const tokens = [
   [/^\[/, "["],
   [/^\]/, "]"],
   [/^\:/, ":"],
+  [/^\w+/, "STRING"],
   [/^"[^"]*"/, "STRING"],
   [/^\d+(\.\d+)?$/, "NUMBER"],
   [/^\d+/, "NUMBER"],
@@ -53,7 +54,7 @@ class Tokenizer {
 
       return {
         type: tokenType,
-        value: result,
+        value: result.replace(/['"]+/g, ""),
       };
     }
 
@@ -61,7 +62,7 @@ class Tokenizer {
   }
 
   _match(regex, string) {
-    const result = regex.exec(string.toString());
+    const result = regex.exec(string);
     if (result === null) {
       return null;
     }

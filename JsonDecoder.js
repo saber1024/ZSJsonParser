@@ -16,6 +16,7 @@ class JsonDecoder {
     return this.StatementList();
   }
 
+  //assemble all elements
   StatementList(stop) {
     const statements = {};
 
@@ -31,6 +32,7 @@ class JsonDecoder {
     return statements;
   }
 
+  //router for diffrent elements
   Statement() {
     switch (this._lookahead.type) {
       case "{":
@@ -44,17 +46,42 @@ class JsonDecoder {
     }
   }
 
+  //different types of array
+  /**
+   *   [ { key : value}]  object array
+   *   [ "www.google.com"] string array
+   *   [1,2,3,4] number array
+   *
+   */
   arrayStatement() {
     this._eat("[");
     const objects = [];
     while (this._lookahead.type !== "]") {
-      const object = this.decodeKeyValue();
-      objects.push(object);
+      if (this._lookahead.type === "STRING") {
+        // don't have object inside
+        const object = this.pureStringStatement();
+        objects.push(object);
+      } else if (this._lookahead.type === "NUMBER") {
+        //has Number inside
+        const value = this._eat("NUMBER").value;
+        objects.push(value);
+      } else {
+        //have object inside
+        const object = this.decodeKeyValue();
+        objects.push(object);
+      }
     }
     this._eat("]");
     return objects;
   }
 
+  //only decode pure string
+  pureStringStatement() {
+    const name = this._eat("STRING").value;
+    return name;
+  }
+
+  //decode object
   decodeKeyValue() {
     this._eat("{");
     const body = this._lookahead.type !== "}" ? this.StatementList("}") : {};
@@ -62,6 +89,7 @@ class JsonDecoder {
     return body;
   }
 
+  //decode key/value pair
   Identifier() {
     const name = this._eat("STRING").value;
     this._eat(":");
