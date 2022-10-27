@@ -10,10 +10,11 @@ const tokens = [
   [/^\]/, "]"],
   [/^\:/, ":"],
   [/^[0-9]*\.[0-9]+/, "NUMBER"],
+  [/^\d+/, "NUMBER"],
   [/^\d/, "NUMBER"],
   [/^\w+/, "STRING"],
   [/^"[^"]*"/, "STRING"],
-  [/^\d+/, "NUMBER"],
+
   [/^\btrue\b/, "true"],
   [/^\bfalse\b/, "false"],
   [/^\bnull\b/, "null"],

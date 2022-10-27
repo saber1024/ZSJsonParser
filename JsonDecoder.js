@@ -41,9 +41,16 @@ class JsonDecoder {
         return this.Identifier();
       case "[":
         return this.arrayStatement();
+      case "NUMBER":
+        return this.numberStatement();
       default:
         return null;
     }
+  }
+
+  numberStatement() {
+    const value = this._eat("NUMBER").value;
+    return { value };
   }
 
   //different types of array
