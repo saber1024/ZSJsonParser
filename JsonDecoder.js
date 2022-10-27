@@ -84,6 +84,18 @@ class JsonDecoder {
         let value = this._eat("NUMBER").value;
         if (/^[0-9]*\.[0-9]+/.exec(value) !== null) {
           value = parseFloat(value);
+        } else if (
+          /^([-]?(?=\.\d|\d)(?:\d+)?(?:\.?\d*))(?:[eE]([+-]?\d+))?$/.exec(
+            value
+          ) != null
+        ) {
+          value = parseFloat(value);
+        } else if (
+          /^([+-]?(?=\.\d|\d)(?:\d+)?(?:\.?\d*))(?:[eE]([+-]?\d+))?$/.exec(
+            value
+          ) != null
+        ) {
+          value = parseInt(value);
         } else {
           value = parseInt(value);
         }
