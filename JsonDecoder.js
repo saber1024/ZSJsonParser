@@ -19,16 +19,18 @@ class JsonDecoder {
   //assemble all elements
   StatementList(stop) {
     const statements = {};
-
     while (this._lookahead != null && this._lookahead.type !== stop) {
       const ele = this.Statement();
-      if (ele !== null) {
-        for (const [key, value] of Object.entries(ele)) {
-          statements[key] = value;
+      if (Array.isArray(ele)) {
+        return ele;
+      } else {
+        if (ele !== null) {
+          for (const [key, value] of Object.entries(ele)) {
+            statements[key] = value;
+          }
         }
       }
     }
-
     return statements;
   }
 
@@ -41,16 +43,9 @@ class JsonDecoder {
         return this.Identifier();
       case "[":
         return this.arrayStatement();
-      case "NUMBER":
-        return this.numberStatement();
       default:
         return null;
     }
-  }
-
-  numberStatement() {
-    const value = this._eat("NUMBER").value;
-    return { value };
   }
 
   //different types of array
