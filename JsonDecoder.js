@@ -25,13 +25,27 @@ class JsonDecoder {
         return ele;
       } else {
         if (ele !== null) {
-          for (const [key, value] of Object.entries(ele)) {
-            statements[key] = value;
+          if (!this.isEmpty(ele)) {
+            for (const [key, value] of Object.entries(ele)) {
+              statements[key] = value;
+            }
+          } else {
+            this._eat("}");
           }
         }
       }
     }
     return statements;
+  }
+
+  isEmpty(obj) {
+    for (var prop in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+        return false;
+      }
+    }
+
+    return JSON.stringify(obj) === JSON.stringify({});
   }
 
   //router for diffrent elements
@@ -43,6 +57,8 @@ class JsonDecoder {
         return this.Identifier();
       case "[":
         return this.arrayStatement();
+      case "}":
+        return {};
       default:
         return null;
     }
