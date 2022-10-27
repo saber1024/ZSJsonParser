@@ -63,7 +63,12 @@ class JsonDecoder {
         objects.push(object);
       } else if (this._lookahead.type === "NUMBER") {
         //has Number inside
-        const value = this._eat("NUMBER").value;
+        let value = this._eat("NUMBER").value;
+        if (/^[0-9]*\.[0-9]+/.exec(value) !== null) {
+          value = parseFloat(value);
+        } else {
+          value = parseInt(value);
+        }
         objects.push(value);
       } else {
         //have object inside
@@ -100,6 +105,11 @@ class JsonDecoder {
       this._lookahead.type != "]"
     ) {
       value = this._eat(this._lookahead.type).value;
+      if (/^[0-9]*\.[0-9]+/.exec(value) !== null) {
+        value = parseFloat(value);
+      } else if (/^\d+/.exec(value) !== null) {
+        value = parseInt(value);
+      }
     } else if (this._lookahead.type === "[") {
       value = this.arrayStatement();
     } else {
