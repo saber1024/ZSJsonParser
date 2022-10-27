@@ -4,11 +4,11 @@ const str = `
    {
        "name" : "jennie",
        "sex" : 1,
-       "height": 165,
+       "height": 165.5,
        "group" : "blackpink",
        "isPass": false,
        "data" :{
-          "age" : 25,
+          "age" : 25.5,
           "lastLogin": "0805",
           "login_Device": {
              "first" : "iphone",
@@ -39,6 +39,4 @@ const decoder = new JsonDecoder(str);
 
 const result = decoder.parse();
 
-console.log(JSON.stringify(result["data"], null, 2));
-
-// // console.log(JSON.stringify(result[data], null, 2));
+console.log(JSON.stringify(result, null, 2));

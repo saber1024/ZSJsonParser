@@ -9,9 +9,10 @@ const tokens = [
   [/^\[/, "["],
   [/^\]/, "]"],
   [/^\:/, ":"],
+  [/^[0-9]*\.[0-9]+/, "NUMBER"],
+
   [/^\w+/, "STRING"],
   [/^"[^"]*"/, "STRING"],
-  [/^\d+(\.\d+)?$/, "NUMBER"],
   [/^\d+/, "NUMBER"],
   [/^\btrue\b/, "true"],
   [/^\bfalse\b/, "false"],
@@ -37,7 +38,7 @@ class Tokenizer {
       return null;
     }
 
-    const string = this._string.slice(this._cursor);
+    let string = this._string.slice(this._cursor);
     if (string.startsWith("\n")) {
       this._cursor += 2;
       return this.getNextToken();
