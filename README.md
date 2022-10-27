@@ -6,7 +6,7 @@ transforming Json string into javascript object with single line of code.
 support majority of the json format like 
 
 1. Object/key-value pair
-2. Array with object/number/string
+2. Array of object/number/string
 3. Support for decimal number
 
 useage 
