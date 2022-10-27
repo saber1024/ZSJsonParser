@@ -127,6 +127,18 @@ class JsonDecoder {
         value = parseFloat(value);
       } else if (/^\d+/.exec(value) !== null) {
         value = parseInt(value);
+      } else if (
+        /^([-]?(?=\.\d|\d)(?:\d+)?(?:\.?\d*))(?:[eE]([+-]?\d+))?$/.exec(
+          value
+        ) != null
+      ) {
+        value = parseFloat(value);
+      } else if (
+        /^([+-]?(?=\.\d|\d)(?:\d+)?(?:\.?\d*))(?:[eE]([+-]?\d+))?$/.exec(
+          value
+        ) != null
+      ) {
+        value = parseInt(value);
       }
     } else if (this._lookahead.type === "[") {
       value = this.arrayStatement();
